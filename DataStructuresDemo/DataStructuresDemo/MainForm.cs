@@ -32,58 +32,28 @@ namespace DataStructuresDemo
 
         private void InitializeDataStructuresComboBox()
         {
-            // Dictionary to store data structure names and their descriptions
-            var dataStructures = new Dictionary<string>
+            // List of data structure names
+            var dataStructures = new List<string>
             {
-                // List<T>: A dynamic array that can grow in size automatically
-                // Best for: Collections that need frequent additions/removals and index-based access
-                {"List<User>"},
-                
-                // Array: Fixed-size collection of elements
-                // Best for: When you know the exact number of elements and need better performance
-                {"Array"},
-                
-                // Multi-dimensional Array: Table-like structure with rows and columns
-                // Best for: Grid-based data, matrices, or tabular data
-                {"Multi-dimensional Array"},
-                
-                // Jagged Array: Array of arrays with varying lengths
-                // Best for: When you need arrays of different lengths within the same structure
-                {"Jagged Array"},
-                
-                // Dictionary<TKey, TValue>: Key-value pair collection
-                // Best for: Fast lookups by key, when you need to find items by a unique identifier
-                {"Dictionary<int, User>"},
-                
-                // Queue<T>: First-In-First-Out (FIFO) collection
-                // Best for: Processing items in the order they were added (like a waiting line)
-                {"Queue<User>"},
-                
-                // Stack<T>: Last-In-First-Out (LIFO) collection
-                // Best for: When you need to process items in reverse order (like undo operations)
-                {"Stack<User>"},
-                
-                // HashSet<T>: Collection of unique elements with fast lookups
-                // Best for: When you need to ensure uniqueness and perform set operations
-                {"HashSet<User>"},
-                
-                // LinkedList<T>: Collection where each element points to the next one
-                // Best for: Frequent insertions/deletions in the middle of the collection
-                {"LinkedList<User>"}
+                "List<User>",
+                "Array",
+                "Multi-dimensional Array",
+                "Jagged Array",
+                "Dictionary<int, User>",
+                "Queue<User>",
+                "Stack<User>",
+                "HashSet<User>",
+                "LinkedList<User>"
             };
 
             // Clear existing items
             cboDataStructures.Items.Clear();
             
-            // Add items with descriptions
-            foreach (var kvp in dataStructures)
+            // Add items to the combo box
+            foreach (var dataStructure in dataStructures)
             {
-                cboDataStructures.Items.Add(new { Display = $"{kvp.Key} - {kvp.Value}", Value = kvp.Key });
+                cboDataStructures.Items.Add(dataStructure);
             }
-            
-            // Set display and value members
-            cboDataStructures.DisplayMember = "Display";
-            cboDataStructures.ValueMember = "Value";
             
             // Select first item by default
             if (cboDataStructures.Items.Count > 0)
@@ -163,16 +133,15 @@ namespace DataStructuresDemo
                     return;
                 }
 
-                // Get the selected value from the combo box (the data structure name without description)
+                // Get the selected data structure
                 if (cboDataStructures.SelectedItem != null)
                 {
-                    var selectedItem = (dynamic)cboDataStructures.SelectedItem;
-                    string selectedValue = selectedItem.Value;
-
-                    // Display the selected data structure with its description
-                    txtOutput.Text = $"=== {selectedItem.Display} ===\r\n\r\n";
+                    string selectedStructure = cboDataStructures.SelectedItem.ToString();
                     
-                    switch (selectedValue)
+                    // Clear the output and show the selected data structure
+                    txtOutput.Text = $"=== {selectedStructure} ===\r\n";
+                    
+                    switch (selectedStructure)
                     {
                         case "List<User>":
                             DisplayList(users);
@@ -222,15 +191,32 @@ namespace DataStructuresDemo
                 using (var command = new SQLiteCommand(selectQuery, connection))
                 using (var reader = command.ExecuteReader())
                 {
+                    // First, read all users
+                    var tempUsers = new List<User>();
                     while (reader.Read())
                     {
-                        users.Add(new User
+                        tempUsers.Add(new User
                         {
                             Id = Convert.ToInt32(reader["Id"]),
                             FirstName = reader["FirstName"].ToString(),
                             LastName = reader["LastName"].ToString(),
                             Email = reader["Email"].ToString(),
                             Age = Convert.ToInt32(reader["Age"])
+                        });
+                    }
+                    
+                    // Add each user twice to create duplicates for demonstration
+                    foreach (var user in tempUsers)
+                    {
+                        users.Add(user);
+                        // Add a copy of the user with same data but different reference
+                        users.Add(new User 
+                        { 
+                            Id = user.Id, 
+                            FirstName = user.FirstName, 
+                            LastName = user.LastName, 
+                            Email = user.Email, 
+                            Age = user.Age 
                         });
                     }
                 }
