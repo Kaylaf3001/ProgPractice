@@ -32,19 +32,62 @@ namespace DataStructuresDemo
 
         private void InitializeDataStructuresComboBox()
         {
-            cboDataStructures.Items.AddRange(new string[]
+            // Dictionary to store data structure names and their descriptions
+            var dataStructures = new Dictionary<string, string>
             {
-                "List<User>",
-                "Array",
-                "Multi-dimensional Array",
-                "Jagged Array",
-                "Dictionary<int, User>",
-                "Queue<User>",
-                "Stack<User>",
-                "HashSet<User>",
-                "LinkedList<User>"
-            });
-            cboDataStructures.SelectedIndex = 0;
+                // List<T>: A dynamic array that can grow in size automatically
+                // Best for: Collections that need frequent additions/removals and index-based access
+                {"List<User>", "Dynamic array that can grow in size. Fast access by index, good for frequent additions/removals at the end."},
+                
+                // Array: Fixed-size collection of elements
+                // Best for: When you know the exact number of elements and need better performance
+                {"Array", "Fixed-size collection. Fastest access by index but size cannot be changed after creation."},
+                
+                // Multi-dimensional Array: Table-like structure with rows and columns
+                // Best for: Grid-based data, matrices, or tabular data
+                {"Multi-dimensional Array", "Table-like structure (e.g., 2D arrays). Good for grid-based data with fixed dimensions."},
+                
+                // Jagged Array: Array of arrays with varying lengths
+                // Best for: When you need arrays of different lengths within the same structure
+                {"Jagged Array", "Array of arrays where each element can be a different size. More flexible than multi-dimensional arrays."},
+                
+                // Dictionary<TKey, TValue>: Key-value pair collection
+                // Best for: Fast lookups by key, when you need to find items by a unique identifier
+                {"Dictionary<int, User>", "Key-value pairs. Extremely fast lookups by key (O(1)). Each key must be unique."},
+                
+                // Queue<T>: First-In-First-Out (FIFO) collection
+                // Best for: Processing items in the order they were added (like a waiting line)
+                {"Queue<User>", "FIFO (First-In-First-Out) collection. Use when you need to process items in the order they were added."},
+                
+                // Stack<T>: Last-In-First-Out (LIFO) collection
+                // Best for: When you need to process items in reverse order (like undo operations)
+                {"Stack<User>", "LIFO (Last-In-First-Out) collection. The last item added is the first one to be removed."},
+                
+                // HashSet<T>: Collection of unique elements with fast lookups
+                // Best for: When you need to ensure uniqueness and perform set operations
+                {"HashSet<User>", "Collection of unique elements. Very fast for checking if an item exists (O(1)). No duplicate items allowed."},
+                
+                // LinkedList<T>: Collection where each element points to the next one
+                // Best for: Frequent insertions/deletions in the middle of the collection
+                {"LinkedList<User>", "Doubly-linked list. Fast insertions/deletions anywhere in the list, but slower index-based access."}
+            };
+
+            // Clear existing items
+            cboDataStructures.Items.Clear();
+            
+            // Add items with descriptions
+            foreach (var kvp in dataStructures)
+            {
+                cboDataStructures.Items.Add(new { Display = $"{kvp.Key} - {kvp.Value}", Value = kvp.Key });
+            }
+            
+            // Set display and value members
+            cboDataStructures.DisplayMember = "Display";
+            cboDataStructures.ValueMember = "Value";
+            
+            // Select first item by default
+            if (cboDataStructures.Items.Count > 0)
+                cboDataStructures.SelectedIndex = 0;
         }
 
         private void btnAddUser_Click(object sender, EventArgs e)
@@ -120,35 +163,45 @@ namespace DataStructuresDemo
                     return;
                 }
 
-                switch (cboDataStructures.SelectedItem.ToString())
+                // Get the selected value from the combo box (the data structure name without description)
+                if (cboDataStructures.SelectedItem != null)
                 {
-                    case "List<User>":
-                        DisplayList(users);
-                        break;
-                    case "Array":
-                        DisplayArray(users.ToArray());
-                        break;
-                    case "Multi-dimensional Array":
-                        DisplayMultiDimensionalArray(users);
-                        break;
-                    case "Jagged Array":
-                        DisplayJaggedArray(users);
-                        break;
-                    case "Dictionary<int, User>":
-                        DisplayDictionary(users);
-                        break;
-                    case "Queue<User>":
-                        DisplayQueue(new Queue<User>(users));
-                        break;
-                    case "Stack<User>":
-                        DisplayStack(new Stack<User>(users));
-                        break;
-                    case "HashSet<User>":
-                        DisplayHashSet(new HashSet<User>(users));
-                        break;
-                    case "LinkedList<User>":
-                        DisplayLinkedList(new LinkedList<User>(users));
-                        break;
+                    var selectedItem = (dynamic)cboDataStructures.SelectedItem;
+                    string selectedValue = selectedItem.Value;
+
+                    // Display the selected data structure with its description
+                    txtOutput.Text = $"=== {selectedItem.Display} ===\r\n\r\n";
+                    
+                    switch (selectedValue)
+                    {
+                        case "List<User>":
+                            DisplayList(users);
+                            break;
+                        case "Array":
+                            DisplayArray(users.ToArray());
+                            break;
+                        case "Multi-dimensional Array":
+                            DisplayMultiDimensionalArray(users);
+                            break;
+                        case "Jagged Array":
+                            DisplayJaggedArray(users);
+                            break;
+                        case "Dictionary<int, User>":
+                            DisplayDictionary(users);
+                            break;
+                        case "Queue<User>":
+                            DisplayQueue(new Queue<User>(users));
+                            break;
+                        case "Stack<User>":
+                            DisplayStack(new Stack<User>(users));
+                            break;
+                        case "HashSet<User>":
+                            DisplayHashSet(new HashSet<User>(users));
+                            break;
+                        case "LinkedList<User>":
+                            DisplayLinkedList(new LinkedList<User>(users));
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
