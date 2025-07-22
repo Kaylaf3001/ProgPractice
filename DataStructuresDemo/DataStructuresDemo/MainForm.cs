@@ -33,43 +33,43 @@ namespace DataStructuresDemo
         private void InitializeDataStructuresComboBox()
         {
             // Dictionary to store data structure names and their descriptions
-            var dataStructures = new Dictionary<string, string>
+            var dataStructures = new Dictionary<string>
             {
                 // List<T>: A dynamic array that can grow in size automatically
                 // Best for: Collections that need frequent additions/removals and index-based access
-                {"List<User>", "Dynamic array that can grow in size. Fast access by index, good for frequent additions/removals at the end."},
+                {"List<User>"},
                 
                 // Array: Fixed-size collection of elements
                 // Best for: When you know the exact number of elements and need better performance
-                {"Array", "Fixed-size collection. Fastest access by index but size cannot be changed after creation."},
+                {"Array"},
                 
                 // Multi-dimensional Array: Table-like structure with rows and columns
                 // Best for: Grid-based data, matrices, or tabular data
-                {"Multi-dimensional Array", "Table-like structure (e.g., 2D arrays). Good for grid-based data with fixed dimensions."},
+                {"Multi-dimensional Array"},
                 
                 // Jagged Array: Array of arrays with varying lengths
                 // Best for: When you need arrays of different lengths within the same structure
-                {"Jagged Array", "Array of arrays where each element can be a different size. More flexible than multi-dimensional arrays."},
+                {"Jagged Array"},
                 
                 // Dictionary<TKey, TValue>: Key-value pair collection
                 // Best for: Fast lookups by key, when you need to find items by a unique identifier
-                {"Dictionary<int, User>", "Key-value pairs. Extremely fast lookups by key (O(1)). Each key must be unique."},
+                {"Dictionary<int, User>"},
                 
                 // Queue<T>: First-In-First-Out (FIFO) collection
                 // Best for: Processing items in the order they were added (like a waiting line)
-                {"Queue<User>", "FIFO (First-In-First-Out) collection. Use when you need to process items in the order they were added."},
+                {"Queue<User>"},
                 
                 // Stack<T>: Last-In-First-Out (LIFO) collection
                 // Best for: When you need to process items in reverse order (like undo operations)
-                {"Stack<User>", "LIFO (Last-In-First-Out) collection. The last item added is the first one to be removed."},
+                {"Stack<User>"},
                 
                 // HashSet<T>: Collection of unique elements with fast lookups
                 // Best for: When you need to ensure uniqueness and perform set operations
-                {"HashSet<User>", "Collection of unique elements. Very fast for checking if an item exists (O(1)). No duplicate items allowed."},
+                {"HashSet<User>"},
                 
                 // LinkedList<T>: Collection where each element points to the next one
                 // Best for: Frequent insertions/deletions in the middle of the collection
-                {"LinkedList<User>", "Doubly-linked list. Fast insertions/deletions anywhere in the list, but slower index-based access."}
+                {"LinkedList<User>"}
             };
 
             // Clear existing items
@@ -243,7 +243,7 @@ namespace DataStructuresDemo
 
         private void DisplayList(List<User> users)
         {
-            txtOutput.Text = "=== List<User> ===\r\n";
+            txtOutput.Text = "=== List<User> ===\r\nDynamic array that can grow in size. Fast access by index, good for frequent additions/removals at the end.\r\n\r\n";
             foreach (var user in users)
             {
                 txtOutput.AppendText($"- {user}\r\n");
@@ -252,7 +252,7 @@ namespace DataStructuresDemo
 
         private void DisplayArray(User[] users)
         {
-            txtOutput.Text = "=== Array ===\r\n";
+            txtOutput.Text = "=== Array ===\r\nFixed-size collection. Fastest access by index but size cannot be changed after creation.\r\n\r\n";
             for (int i = 0; i < users.Length; i++)
             {
                 txtOutput.AppendText($"[{i}]: {users[i]}\r\n");
@@ -270,7 +270,7 @@ namespace DataStructuresDemo
                 multiArray[i, 1] = users[i];
             }
 
-            txtOutput.Text = "=== Multi-dimensional Array (ID, User) ===\r\n";
+            txtOutput.Text = "=== Multi-dimensional Array (ID, User) ===\r\nTable-like structure (e.g., 2D arrays). Good for grid-based data with fixed dimensions.\r\n\r\n";
             for (int i = 0; i < multiArray.GetLength(0); i++)
             {
                 txtOutput.AppendText($"ID: {multiArray[i, 0]}, User: {multiArray[i, 1]}\r\n");
@@ -292,7 +292,7 @@ namespace DataStructuresDemo
                 }
             }
 
-            txtOutput.Text = "=== Jagged Array ===\r\n";
+            txtOutput.Text = "=== Jagged Array ===\r\nArray of arrays where each element can be a different size. More flexible than multi-dimensional arrays.\r\n\r\n";
             for (int i = 0; i < jaggedArray.Length; i++)
             {
                 txtOutput.AppendText($"Row {i + 1}: ");
@@ -312,7 +312,7 @@ namespace DataStructuresDemo
                 dict[user.Id] = user;
             }
 
-            txtOutput.Text = "=== Dictionary<int, User> ===\r\n";
+            txtOutput.Text = "=== Dictionary<int, User> ===\r\nKey-value pairs. Extremely fast lookups by key (O(1)). Each key must be unique.\r\n\r\n";
             foreach (var kvp in dict)
             {
                 txtOutput.AppendText($"Key: {kvp.Key}, Value: {kvp.Value}\r\n");
@@ -321,7 +321,7 @@ namespace DataStructuresDemo
 
         private void DisplayQueue(Queue<User> queue)
         {
-            txtOutput.Text = "=== Queue<User> (FIFO) ===\r\n";
+            txtOutput.Text = "=== Queue<User> (FIFO) ===\r\nFIFO (First-In-First-Out) collection. Use when you need to process items in the order they were added.\r\n\r\n";
             txtOutput.AppendText("Queue order (first to be dequeued first):\r\n");
             
             int count = 1;
@@ -333,7 +333,7 @@ namespace DataStructuresDemo
 
         private void DisplayStack(Stack<User> stack)
         {
-            txtOutput.Text = "=== Stack<User> (LIFO) ===\r\n";
+            txtOutput.Text = "=== Stack<User> (LIFO) ===\r\nLIFO (Last-In-First-Out) collection. The last item added is the first one to be removed.\r\n\r\n";
             txtOutput.AppendText("Stack order (top to bottom):\r\n");
             
             int count = 1;
@@ -345,7 +345,7 @@ namespace DataStructuresDemo
 
         private void DisplayHashSet(HashSet<User> hashSet)
         {
-            txtOutput.Text = "=== HashSet<User> ===\r\n";
+            txtOutput.Text = "=== HashSet<User> ===\r\nCollection of unique elements. Very fast for checking if an item exists (O(1)). No duplicate items allowed.\r\n\r\n";
             txtOutput.AppendText($"Total unique users: {hashSet.Count}\r\n\r\n");
             
             foreach (var user in hashSet)
@@ -356,7 +356,7 @@ namespace DataStructuresDemo
 
         private void DisplayLinkedList(LinkedList<User> linkedList)
         {
-            txtOutput.Text = "=== LinkedList<User> ===\r\n";
+            txtOutput.Text = "=== LinkedList<User> ===\r\nDoubly-linked list. Fast insertions/deletions anywhere in the list, but slower index-based access.\r\n\r\n";
             
             var current = linkedList.First;
             int index = 1;
